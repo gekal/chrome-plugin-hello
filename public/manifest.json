@@ -1,10 +1,36 @@
 {
   "manifest_version": 3,
-  "name": "Chrome Extension Hello",
+  "name": "WebView Mock",
   "version": "1.0",
-  "description": "拡張機能の説明",
-  "permissions": [],
+  "description": "WebViewのモックをサポートする",
+  "permissions": [
+    "scripting",
+    "activeTab"
+  ],
   "action": {
     "default_popup": "popup.html"
-  }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "androidInterface.js"
+      ],
+      "matches": [
+        "https://gekal-study-android.github.io/*"
+      ]
+    }
+  ]
 }
