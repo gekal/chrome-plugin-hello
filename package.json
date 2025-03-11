@@ -1,0 +1,25 @@
+{
+  "name": "chrome-pugin-hello",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gekal/chrome-pugin-hello.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/gekal/chrome-pugin-hello/issues"
+  },
+  "homepage": "https://github.com/gekal/chrome-pugin-hello#readme",
+  "description": "",
+  "devDependencies": {
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1"
+  }
+}
