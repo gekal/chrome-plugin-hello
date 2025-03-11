@@ -2,7 +2,11 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
+    devtool: 'source-map',
+    mode: 'production',
+    optimization: {
+        minimize: false,
+    },
     entry: {
         popup: './src/popup.ts',
         background: './src/background.ts',
