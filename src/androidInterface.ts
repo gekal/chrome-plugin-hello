@@ -2,6 +2,19 @@ interface AndroidInterface {
   showToast: (message: string) => Promise<string>;
 }
 
+interface MessageResponse {
+  messageId: string;
+  result?: any;
+  error?: string;
+}
+
+interface MessageRequest {
+  type: string;
+  method: string;
+  args: any[];
+  messageId: string;
+}
+
 declare global {
   interface Window {
     AndroidInterface: AndroidInterface;
@@ -9,23 +22,35 @@ declare global {
 }
 
 window.AndroidInterface = {
-  showToast: function(message: string): Promise<string> {
-    return new Promise((resolve, reject) => {
+  showToast: function (message: string): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
       const messageId = Math.random().toString(36).substring(2, 9);
 
-      window.addEventListener('message', function listener(event: MessageEvent) {
-        if (event.source !== window || event.data?.messageId !== messageId) return;
-        window.removeEventListener('message', listener);
-        if (event.data.error) reject(event.data.error);
-        else resolve(event.data.result);
-      });
+      // ウェブページ内でのメッセージリスナーを設定
+      const listener = (event: MessageEvent): void => {
+        const data = event.data as MessageResponse;
 
-      window.postMessage({
+        if (event.source !== window || !data || data.messageId !== messageId) return;
+        window.removeEventListener('message', listener);
+
+        if (data.error) {
+          reject(new Error(data.error));
+        } else {
+          resolve(data.result);
+        }
+      };
+
+      window.addEventListener('message', listener);
+
+      // コンテンツスクリプトにメッセージを送信
+      const request: MessageRequest = {
         type: 'AndroidInterface',
         method: 'showToast',
         args: [message],
-        messageId,
-      }, '*');
+        messageId: messageId,
+      };
+
+      window.postMessage(request, '*');
     });
   },
 };

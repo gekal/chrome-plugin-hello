@@ -1,16 +1,14 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === 'AndroidInterface') {
-    if (message.method === 'showToast') {
-      console.log('Toast message received:', message.args[0]);
+  if (message.type === 'AndroidInterface' && message.method === 'showToast') {
+    const [toastMessage] = message.args;
 
-      // 仮の処理（本来は OS ネイティブの処理を呼ぶ）
-      alert(message.args[0]);
+    // 実際の Android 連携処理を実装
+    // ここではダミーレスポンスを返します
+    setTimeout(() => {
+      sendResponse(`Toast message: ${toastMessage}`);
+    }, 1000);
 
-      // `evaluateJavascript` 相当の処理
-      sendResponse({ result: 'javascript: handleReturnValue(\'Hello from Chrome!\')' });
-    } else {
-      sendResponse({ error: 'Unknown method' });
-    }
+    // 非同期レスポンスを送信するために true を返す
+    return true;
   }
-  return true; // 非同期レスポンスを許可
 });
