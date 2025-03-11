@@ -7,21 +7,8 @@
     "scripting",
     "activeTab"
   ],
-  "action": {
-    "default_popup": "popup.html"
-  },
-  "background": {
-    "service_worker": "background.js"
-  },
-  "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "content.js"
-      ]
-    }
+  "host_permissions": [
+    "https://gekal-study-android.github.io/*"
   ],
   "web_accessible_resources": [
     {
@@ -32,5 +19,22 @@
         "https://gekal-study-android.github.io/*"
       ]
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://gekal-study-android.github.io/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
 }
