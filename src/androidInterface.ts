@@ -1,18 +1,5 @@
 interface AndroidInterface {
-  showToast: (message: string) => Promise<string>;
-}
-
-interface MessageResponse {
-  messageId: string;
-  result?: any;
-  error?: string;
-}
-
-interface MessageRequest {
-  type: string;
-  method: string;
-  args: any[];
-  messageId: string;
+  showToast: (message: string) => void;
 }
 
 declare global {
@@ -22,36 +9,10 @@ declare global {
 }
 
 window.AndroidInterface = {
-  showToast: function (message: string): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-      const messageId = Math.random().toString(36).substring(2, 9);
-
-      // ウェブページ内でのメッセージリスナーを設定
-      const listener = (event: MessageEvent): void => {
-        const data = event.data as MessageResponse;
-
-        if (event.source !== window || !data || data.messageId !== messageId) return;
-        window.removeEventListener('message', listener);
-
-        if (data.error) {
-          reject(new Error(data.error));
-        } else {
-          resolve(data.result);
-        }
-      };
-
-      window.addEventListener('message', listener);
-
-      // コンテンツスクリプトにメッセージを送信
-      const request: MessageRequest = {
-        type: 'AndroidInterface',
-        method: 'showToast',
-        args: [message],
-        messageId: messageId,
-      };
-
-      window.postMessage(request, '*');
-    });
+  showToast: function (message: string): void {
+    console.log(`Mocked AndroidInterface.showToast called with: ${message}`);
+    // Webviewのスクリプトを評価する
+    (window as any).handleReturnValue('Hello from Mocked!');
   },
 };
 

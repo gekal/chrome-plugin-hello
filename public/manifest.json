@@ -4,9 +4,7 @@
   "version": "1.0",
   "description": "WebViewのモックをサポートする",
   "permissions": [
-    "nativeMessaging",
-    "scripting",
-    "activeTab"
+    "scripting"
   ],
   "host_permissions": [
     "https://gekal-study-android.github.io/*"
